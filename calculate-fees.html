@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate total fees for the courses, including VAT and applicable discounts.">
+    <title>Calculate Fees | Empowering the Nation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar container">
+            <a href="index.html" class="brand">
+                <img src="assets/logo.png" alt="Empowering the Nation Logo" class="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses-summary.html">Courses</a></li>
+                <li><a href="calculate-fees.html">Fees</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </nav>
+    </header>
+
+    <section class="fees container">
+        <h1>Calculate Your Fees</h1>
+        <p>Select the courses you’re interested in, and we’ll calculate the total cost, including VAT and discounts.</p>
+
+        <!-- Fee Calculation Form -->
+        <form id="feesForm">
+            <div class="course-selection">
+                <label>
+                    <input type="checkbox" name="course" value="1500" data-course-name="First Aid"> First Aid (R1500)
+                </label>
+                <label>
+                    <input type="checkbox" name="course" value="1500" data-course-name="Sewing"> Sewing (R1500)
+                </label>
+                <label>
+                    <input type="checkbox" name="course" value="750" data-course-name="Child Minding"> Child Minding (R750)
+                </label>
+            </div>
+
+            <div class="fees-summary">
+                <h3>Summary</h3>
+                <p id="selected-courses">Selected Courses: None</p>
+                <p id="vat-amount">VAT (15%): R0.00</p>
+                <p id="discount">Discount: R0.00</p>
+                <h2 id="total-fees">Total Fees: R0.00</h2>
+            </div>
+
+            <button type="button" class="btn primary-btn" onclick="calculateFees()">Calculate</button>
+            <button type="button" class="btn secondary-btn" onclick="resetForm()">Reset</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Empowering the Nation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculateFees() {
+            const checkboxes = document.querySelectorAll('input[name="course"]:checked');
+            let totalFees = 0;
+            const selectedCourses = [];
+
+            checkboxes.forEach((checkbox) => {
+                totalFees += parseFloat(checkbox.value);
+                selectedCourses.push(checkbox.getAttribute('data-course-name'));
+            });
+
+            const vat = totalFees * 0.15;
+            const discount = totalFees > 3000 ? 0.1 * totalFees : 0;
+
+            document.getElementById('selected-courses').textContent = 'Selected Courses: ' + (selectedCourses.length > 0 ? selectedCourses.join(', ') : 'None');
+            document.getElementById('vat-amount').textContent = 'VAT (15%): R' + vat.toFixed(2);
+            document.getElementById('discount').textContent = 'Discount: R' + discount.toFixed(2);
+            document.getElementById('total-fees').textContent = 'Total Fees: R' + (totalFees + vat - discount).toFixed(2);
+        }
+
+        function resetForm() {
+            document.getElementById('feesForm').reset();
+            document.getElementById('selected-courses').textContent = 'Selected Courses: None';
+            document.getElementById('vat-amount').textContent = 'VAT (15%): R0.00';
+            document.getElementById('discount').textContent = 'Discount: R0.00';
+            document.getElementById('total-fees').textContent = 'Total Fees: R0.00';
+        }
+    </script>
+
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
